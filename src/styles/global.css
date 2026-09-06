@@ -208,6 +208,7 @@ Global Base Layer ==============================================
   }
 
   span.katex math {
+    max-width: 100%;
     overflow-x: auto;
     white-space: nowrap;
     text-wrap: nowrap;
