@@ -226,7 +226,7 @@ Utility (CSS class) ============================================
 ***************************************************************/
 
 @utility content-width {
-  @apply w-[calc(100vw-3rem)] md:w-[calc(100vw-4rem-var(--sidebar-width))] xl:w-[max(calc(100vw-3rem-var(--sidebar-width)), var(--content-max-width))];
+  @apply w-[calc(100vw-3rem)] md:w-[calc(100vw-4rem-var(--sidebar-width))] xl:w-[min(calc(100vw-3rem-var(--sidebar-width)),var(--content-max-width))];
 }
 
 @utility no-scrollbar {

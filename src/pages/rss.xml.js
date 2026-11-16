@@ -1,16 +1,18 @@
 import rss from '@astrojs/rss';
-import { SITE_DESCRIPTION, SITE_TITLE } from '@src/consts';
+import { SITE_BASE, SITE_DESCRIPTION, SITE_TITLE } from '@src/consts';
 import { getCollection } from 'astro:content';
 
 export async function GET(context) {
-  const posts = await getCollection('docs');
+  const posts = await getCollection('content');
+  const publishedPosts = posts.filter((post) => post.data.draft !== true && !post.id.endsWith('/_index'));
+
   return rss({
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     site: context.site,
-    items: posts.map((post) => ({
+    items: publishedPosts.map((post) => ({
       ...post.data,
-      link: `/docs/${post.id}/`,
+      link: `${SITE_BASE}/${post.id}/`,
     })),
   });
 }
