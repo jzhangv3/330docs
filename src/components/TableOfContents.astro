@@ -16,13 +16,9 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
       class="bg-background fixed top-14 right-0 left-0 z-19 flex flex-col border-b pt-1 select-none md:top-0 md:left-(--sidebar-width) xl:left-[calc(100vw-var(--sidebar-width))]"
     >
       <summary class="flex list-none items-center pb-1 text-xs font-bold max-xl:px-6 [&::-webkit-details-marker]:hidden">
-        <a
-          href="#"
-          aria-label="Go to the top of the page"
-          class="after:svg-arrow relative h-4 whitespace-nowrap after:h-4 after:w-4 after:transition-transform"
-        >
+        <span class="text-link after:svg-arrow relative h-4 whitespace-nowrap after:h-4 after:w-4 after:transition-transform">
           On this page
-        </a>
+        </span>
         <span id="current-heading" class="scrollable-text-x ml-4" />
       </summary>
       <ul
@@ -119,24 +115,27 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
     window.addEventListener('DOMContentLoaded', handleHashSync);
 
     // Other QOL: Click to close and update text content based on screen size
-    function handleClickOutside(event: MouseEvent) {
-      if (!details.hasAttribute('open')) return;
-      const isSummary = event.target instanceof Element && event.target.closest('summary');
-      if (isSummary) return;
+    function handleInteraction(event: MouseEvent | KeyboardEvent) {
+      if (!details.hasAttribute('open') || window.innerWidth >= 1280) return;
+      const isSummaryClick =
+        event instanceof MouseEvent && event.target instanceof Element && event.target.closest('summary');
+      if (isSummaryClick) return;
       details.removeAttribute('open');
     }
 
     function updateTextContent() {
-      const tocGoToTop = document.querySelector('#toc summary a') as HTMLAnchorElement;
+      const tocSummaryText = details.querySelector('summary .text-link') as HTMLSpanElement;
       if (window.innerWidth >= 1280) {
         // tailwind "xl:" breakpoint
         details.setAttribute('open', 'true');
-        tocGoToTop.textContent = '';
-        window.removeEventListener('click', handleClickOutside);
+        tocSummaryText.textContent = '';
+        window.removeEventListener('click', handleInteraction);
+        window.removeEventListener('keydown', handleInteraction);
       } else {
         details.removeAttribute('open');
-        tocGoToTop.textContent = 'On this page';
-        window.addEventListener('click', handleClickOutside);
+        tocSummaryText.textContent = 'On this page';
+        window.addEventListener('click', handleInteraction);
+        window.addEventListener('keydown', handleInteraction);
       }
     }
 
@@ -162,7 +161,7 @@ const filteredHeadings = headings.filter((heading) => heading.depth == 2 || head
 </style>
 
 <style>
-  details[open] summary a::after {
+  details[open] summary span::after {
     transform: rotate(90deg);
   }
 

@@ -82,7 +82,7 @@ Global Base Layer ==============================================
   h4,
   h5,
   h6 {
-    @apply font-bold mt-6 mb-4 text-text-bright scroll-mt-16;
+    @apply font-bold mt-12 mb-4 text-text-bright scroll-mt-16;
     line-height: 1.2;
   }
 
@@ -208,7 +208,7 @@ Global Base Layer ==============================================
   }
 
   span.katex math {
-    max-width: 100%;
+    @apply content-width;
     overflow-x: auto;
     white-space: nowrap;
     text-wrap: nowrap;
@@ -224,6 +224,10 @@ Global Base Layer ==============================================
 /***************************************************************
 Utility (CSS class) ============================================
 ***************************************************************/
+
+@utility content-width {
+  @apply w-[calc(100vw-3rem)] md:w-[calc(100vw-4rem-var(--sidebar-width))] xl:w-[max(calc(100vw-3rem-var(--sidebar-width)), var(--content-max-width))];
+}
 
 @utility no-scrollbar {
   -ms-overflow-style: none;

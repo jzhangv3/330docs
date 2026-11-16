@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 :root {
+  color-scheme: light;
   --neutral-1: #f2f5f3;
   --neutral-2: #e4ebe6;
   --neutral-3: #b6bfb8;
@@ -36,6 +37,8 @@
 }
 
 .dark {
+  color-scheme: dark;
+
   --text: var(--neutral-2);
   --text-bright: var(--neutral-1);
   --text-muted: var(--neutral-3);
